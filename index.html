@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyPerpus</title>
+    <link rel="icon" type="image/png" href="assets/myperpus_icon.png"> 
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="header">
+    <div class="logo">MyPerpus <span>v1.0</span></div>
+    
+    <div id="clock-container" class="clock-display">
+        <div id="realtime-clock">00 : 00 : 00</div>
+        <div id="realtime-date">Memuat Tanggal...</div>
+    </div>
+
+    <div id="admin-profile" class="admin-profile" style="display: none;">
+        <span>Admin</span>
+        <div class="avatar">👤</div>
+        <button onclick="logoutAdmin()" class="btn-logout">Logout</button>
+    </div>
+</div>
+
+    <div class="container">
+
+        <div id="view-role" class="view-section active">
+            <div class="card-center">
+                <div class="card-header-blue">Pilih Terlebih Dahulu !</div>
+                <div class="card-body">
+                    <button onclick="showLoginAdmin()" class="btn-role admin">Admin</button>
+                    <button onclick="showGuestInput()" class="btn-role guest">Tamu</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-login" class="view-section">
+            <div class="card-center">
+                <div class="card-header-blue">Admin Login</div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <label>👤 Username :</label>
+                        <input type="text" id="admin-user">
+                    </div>
+                    <div class="input-group">
+                        <label>🔑 Password :</label>
+                        <input type="password" id="admin-pass">
+                    </div>
+                    <button onclick="prosesLogin()" class="btn-green">Login</button>
+                    <button onclick="showRole()" class="btn-red">Kembali</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-guest" class="view-section">
+            <div class="card-center wide">
+                <div class="card-header-blue">Masukan data diri anda</div>
+                <div class="card-body align-left">
+                    <div class="form-row"><label>Nama :</label><input type="text" id="guest-nama"></div>
+                    <div class="form-row"><label>Alamat :</label><input type="text" id="guest-alamat"></div>
+                    <div class="form-row">
+                        <label>Pekerjaan :</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="job" value="Siswa"> Siswa</label>
+                            <label><input type="radio" name="job" value="Mahasiswa"> Mahasiswa</label>
+                            <label><input type="radio" name="job" value="Guru"> Guru</label>
+                            <label><input type="radio" name="job" value="Dosen"> Dosen</label>
+                            <label><input type="radio" name="job" id="job-lainnya-radio" value="Lainnya"> Lainnya <input type="text" id="job-lainnya-text" style="width: 100px;"></label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label>Jenis Kelamin :</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="jk" value="Laki-laki"> Laki-laki</label>
+                            <label><input type="radio" name="jk" value="Perempuan"> Perempuan</label>
+                        </div>
+                    </div>
+                    <div class="form-row"><label>Telp/Hp :</label><input type="text" id="guest-hp"></div>
+                    <div class="form-row"><label>Tujuan Kunjungan :</label><input type="text" id="guest-tujuan"></div>
+                    
+                    <div class="btn-area">
+                        <button onclick="submitGuest()" class="btn-green">Konfirmasi</button>
+                        <button onclick="showRole()" class="btn-red">Kembali</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-dashboard" class="view-section">
+            <div class="tabs">
+                <button onclick="switchTab('buku')" class="tab-btn active" id="tab-buku">Buku</button>
+                <button onclick="switchTab('tamu')" class="tab-btn" id="tab-tamu">Daftar Tamu</button>
+                <button onclick="switchTab('pinjam')" class="tab-btn" id="tab-pinjam">Peminjaman</button>
+            </div>
+
+            <div id="panel-buku" class="panel active">
+                <div class="form-admin">
+                    <input type="text" id="buku-judul" placeholder="Nama Buku">
+                    <input type="text" id="buku-penerbit" placeholder="Penerbit">
+                    <input type="text" id="buku-penulis" placeholder="Penulis">
+                    <input type="text" id="buku-tahun" placeholder="Tahun" style="width: 80px;">
+                    <button onclick="tambahBuku()" class="btn-green">Tambah</button>
+                </div>
+                <div class="search-area"><input type="text" id="search-buku" onkeyup="filterTable('tabel-buku', 'search-buku')" placeholder="Cari Judul, Penulis, atau ID..."></div>
+                <table id="tabel-buku">
+                    <thead>
+                        <tr><th>ID</th><th>Nama Buku</th><th>Penulis</th><th>Penerbit</th><th>Tahun</th><th>Aksi</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="panel-tamu" class="panel">
+                <div class="search-area"><input type="text" id="search-tamu" onkeyup="filterTable('tabel-tamu-admin', 'search-tamu')" placeholder="Cari Nama Tamu atau ID..."></div>
+                <table id="tabel-tamu-admin">
+                    <thead>
+                        <tr><th>ID</th><th>Nama Tamu</th><th>Alamat</th><th>Pekerjaan</th><th>JK</th><th>HP/Telp</th><th>Tujuan</th><th>Tgl Kunjungan</th><th>Aksi</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="panel-pinjam" class="panel">
+                <div class="form-admin lookup-form">
+                    <input type="text" id="pinjam-id-tamu" placeholder="ID Tamu" oninput="lookupTamu()">
+                    <span id="nama-tamu-display" class="lookup-result">Nama Tamu: -</span>
+                    <input type="text" id="pinjam-id-buku" placeholder="ID Buku" oninput="lookupBuku()">
+                    <span id="judul-buku-display" class="lookup-result">Judul Buku: -</span>
+                    <input type="number" id="pinjam-hari" placeholder="Lama (Hari)" style="width: 100px;">
+                    <button onclick="tambahPeminjaman()" class="btn-green">Tambah</button>
+                </div>
+                <div class="search-area"><input type="text" id="search-pinjam" onkeyup="filterTable('tabel-pinjam', 'search-pinjam')" placeholder="Cari Judul atau Nama Tamu..."></div>
+                <table id="tabel-pinjam">
+                    <thead>
+                        <tr><th>ID</th><th>ID Buku</th><th>Judul</th><th>ID Tamu</th><th>Nama Tamu</th><th>Tgl Pinjam</th><th>Tgl Kembali</th><th>Status</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="custom-modal" class="modal">
+        <div class="modal-content">
+            <p id="modal-msg">Pesan konfirmasi?</p>
+            <div class="modal-buttons">
+                <button id="modal-yes" class="btn-green">Ya/Hapus</button>
+                <button onclick="closeModal()" class="btn-grey">Batal/Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
